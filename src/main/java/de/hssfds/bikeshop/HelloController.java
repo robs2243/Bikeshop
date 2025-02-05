@@ -2,6 +2,7 @@ package de.hssfds.bikeshop;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -14,6 +15,12 @@ public class HelloController {
 
     ArrayList<String> meineBilder = new ArrayList<>();
     int i;
+
+    @FXML
+    private TextField tf_key;
+
+    @FXML
+    private TextField tf_value;
 
     @FXML
     private Label statusLabel;
@@ -102,6 +109,18 @@ public class HelloController {
             setStatusLabel(i);
         }
     }
+
+    @FXML
+    protected void inDBschreiben() {
+        Firebasepusher.pushToFirebase(tf_key.getText(), tf_value.getText());
+    }
+
+    @FXML
+    protected void ausDBlesen() {
+        String[] response = Firebasepusher.getFromFirebase(tf_key.getText());
+        statusLabel.setText("Status Code: " + response[0] + " Response Body: " + response[1]);
+    }
+
 
     protected void setStatusLabel(int index) {
         statusLabel.setText("Pfad: " + meineBilder.get(index));

@@ -5,7 +5,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" minHeight="600.0" minWidth="800.0" prefHeight="223.0" prefWidth="306.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hssfds.bikeshop.HelloController">
+<VBox alignment="CENTER" minHeight="600.0" minWidth="800.0" prefHeight="223.0" prefWidth="306.0" spacing="20.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hssfds.bikeshop.HelloController">
   <padding>
     <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
   </padding>
@@ -16,6 +16,33 @@
     <children>
       <Button alignment="CENTER" onAction="#bildZuruck" prefHeight="26.0" prefWidth="60.0" text="Zurück" textAlignment="CENTER" />
       <Button alignment="CENTER" mnemonicParsing="false" onAction="#bildVor" prefHeight="26.0" prefWidth="60.0" text="Vor" textAlignment="CENTER" />
+         <Button mnemonicParsing="false" onAction="#inDBschreiben" text="In DB schreiben" />
+         <Button mnemonicParsing="false" onAction="#ausDBlesen" text="Aus DB lesen" />
+         <VBox prefHeight="27.0" prefWidth="183.0">
+            <children>
+               <HBox prefHeight="27.0" prefWidth="168.0">
+                  <children>
+                     <Label text="Key">
+                        <padding>
+                           <Insets left="10.0" right="15.0" />
+                        </padding></Label>
+                     <TextField fx:id="tf_key" prefHeight="17.0" prefWidth="74.0" />
+                  </children>
+                  <padding>
+                     <Insets bottom="5.0" />
+                  </padding>
+               </HBox>
+             <HBox prefHeight="27.0" prefWidth="168.0">
+               <children>
+                 <Label alignment="TOP_LEFT" text="Value">
+                        <padding>
+                           <Insets left="10.0" right="5.0" />
+                        </padding></Label>
+                 <TextField fx:id="tf_value" prefHeight="17.0" prefWidth="74.0" />
+               </children>
+             </HBox>
+           </children>
+         </VBox>
     </children>
   </HBox>
 </VBox>
