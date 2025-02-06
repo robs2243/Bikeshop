@@ -45,4 +45,15 @@
          </VBox>
     </children>
   </HBox>
+   <Pane prefHeight="200.0" prefWidth="200.0">
+      <children>
+         <TextField fx:id="tf_token" layoutX="77.0" layoutY="73.0" prefHeight="25.0" prefWidth="670.0" />
+         <Label layoutX="7.0" layoutY="77.0" text="Auth-Token" />
+         <Button layoutX="8.0" layoutY="29.0" mnemonicParsing="false" onAction="#setToken" text="Auth-Token generieren" />
+         <Label layoutX="179.0" layoutY="33.0" text="E-Mail" />
+         <Label layoutX="387.0" layoutY="33.0" text="Password" />
+         <TextField fx:id="tf_mail" layoutX="219.0" layoutY="29.0" />
+         <TextField fx:id="tf_password" layoutX="446.0" layoutY="29.0" />
+      </children>
+   </Pane>
 </VBox>

@@ -17,6 +17,15 @@ public class HelloController {
     int i;
 
     @FXML
+    private TextField tf_mail;
+
+    @FXML
+    private TextField tf_password;
+
+    @FXML
+    private TextField tf_token;
+
+    @FXML
     private TextField tf_key;
 
     @FXML
@@ -112,12 +121,12 @@ public class HelloController {
 
     @FXML
     protected void inDBschreiben() {
-        Firebasepusher.pushToFirebase(tf_key.getText(), tf_value.getText());
+        Firebasepusher.pushToFirebase(tf_key.getText(), tf_value.getText(), tf_token.getText());
     }
 
     @FXML
     protected void ausDBlesen() {
-        String[] response = Firebasepusher.getFromFirebase(tf_key.getText());
+        String[] response = Firebasepusher.getFromFirebase(tf_key.getText(), tf_token.getText());
         statusLabel.setText("Status Code: " + response[0] + " Response Body: " + response[1]);
     }
 
@@ -126,5 +135,11 @@ public class HelloController {
         statusLabel.setText("Pfad: " + meineBilder.get(index));
     }
 
+    @FXML
+    protected void setToken() {
+        String email = tf_mail.getText();
+        String password = tf_password.getText();
+        tf_token.setText(Firebasepusher.generateToken(email, password));
+    }
 }
 
