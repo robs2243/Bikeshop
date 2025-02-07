@@ -58,8 +58,6 @@ public class HelloController {
 
     public void initialize() {
 
-        setTableProperties();
-
         try {
             getJpgPaths();
         }
@@ -237,19 +235,6 @@ public class HelloController {
 
         // Setze die Daten in die TableView
         tV_tabelle.setItems(daten);
-    }
-
-    protected void setTableProperties() {
-
-        /*
-        tV_tabelle.setEditable(true);
-        tC_eigenschaften.setEditable(true);
-        tC_wert.setEditable(true);
-
-        tC_eigenschaften.setCellFactory(TextFieldTableCell.forTableColumn());
-        tC_wert.setCellFactory(TextFieldTableCell.forTableColumn());
-        */
-
     }
 
 }

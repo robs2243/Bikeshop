@@ -36,12 +36,12 @@
       <Button alignment="CENTER" layoutX="391.0" layoutY="341.0" mnemonicParsing="false" onAction="#bildVor" prefHeight="26.0" prefWidth="60.0" text="Vor" textAlignment="CENTER" />
 
         <Label fx:id="statusLabel" alignment="CENTER" layoutX="170.0" layoutY="316.0" prefHeight="17.0" prefWidth="400.0" text="Ein Text" />
-        <ImageView fx:id="bild1" fitHeight="300.0" fitWidth="400.0" layoutX="51.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" />
+        <ImageView fx:id="bild1" fitHeight="299.0" fitWidth="400.0" layoutX="45.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" />
          <TextArea fx:id="tA_response" layoutX="8.0" layoutY="388.0" prefHeight="59.0" prefWidth="477.0" />
-         <TableView fx:id="tV_tabelle" layoutX="454.0" layoutY="8.0" prefHeight="290.0" prefWidth="251.0">
+         <TableView fx:id="tV_tabelle" layoutX="454.0" layoutY="8.0" prefHeight="290.0" prefWidth="254.0">
            <columns>
-             <TableColumn fx:id="tC_eigenschaften" prefWidth="130.0" text="Eigenschaften" />
-             <TableColumn fx:id="tC_wert" prefWidth="120.0" text="Wert" />
+             <TableColumn fx:id="tC_eigenschaften" prefWidth="126.0" text="Eigenschaften" />
+             <TableColumn fx:id="tC_wert" prefWidth="126.0" text="Wert" />
            </columns>
          </TableView>
       </children>
