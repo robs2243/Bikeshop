@@ -38,6 +38,46 @@ public class Firebasepusher {
         }
     }
 
+    public static void pushJSONtoDB(String key, String jsonData, String token) {
+        String url = "https://bikeshop-b09d8-default-rtdb.firebaseio.com/" + key + ".json?auth=" + token;
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .PUT(HttpRequest.BodyPublishers.ofString(jsonData))
+                .build();
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println("pushJSONtoDB - Status Code: " + response.statusCode());
+            System.out.println("pushJSONtoDB - Response Body: " + response.body());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static JSONObject getJSONfromDB(String key, String token) {
+        String url = "https://bikeshop-b09d8-default-rtdb.firebaseio.com/" + key + ".json?auth=" + token;
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .GET()
+                .build();
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println("getJSONfromDB - Status Code: " + response.statusCode());
+            System.out.println("getJSONfromDB - Response Body: " + response.body());
+            String responseBody = response.body();
+            if (responseBody == null || responseBody.equals("null") || responseBody.isEmpty()) {
+                return new JSONObject(); // Leeres JSON-Objekt zurückgeben, falls keine Daten vorhanden sind.
+            }
+            return new JSONObject(responseBody);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static String[] getFromFirebase(String key, String token) {
 
         // Die URL zum gewünschten Pfad in der Datenbank (muss mit .json enden)
