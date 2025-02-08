@@ -16,8 +16,13 @@ public class Fahrrad {
     private final StringProperty produktname;
     private final IntegerProperty zustand;
 
+    // Default constructor needed by Jackson
+    public Fahrrad() {
+        this(0.0, 0.0, 0.0, "", 0);
+    }
+
     // Konstruktor, der alle Attribute setzt
-    public Fahrrad(double preis, double akku, double drehmoment, String produktname, int zustand) {
+    public Fahrrad(double akku, double drehmoment, double preis, String produktname, int zustand) {
         this.preis = new SimpleDoubleProperty(preis);
         this.akku = new SimpleDoubleProperty(akku);
         this.drehmoment = new SimpleDoubleProperty(drehmoment);
