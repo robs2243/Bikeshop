@@ -75,11 +75,11 @@ public class HelloController {
         setStatusLabel(i);
 
         //erstelle 5 Fahrräder und speichere sie in der fahrradListe
-        //fahrradListe.add(new Fahrrad(600, 250, 50, "SloppyJoe", 50));
-        //fahrradListe.add(new Fahrrad(1000, 500, 70, "EasyRider", 20));
-        //fahrradListe.add(new Fahrrad(2500, 1000, 120, "Brutalist", 75));
+        fahrradListe.add(new Fahrrad(600, 250, 50, "SloppyJoe", 50));
+        fahrradListe.add(new Fahrrad(1000, 500, 70, "EasyRider", 20));
+        fahrradListe.add(new Fahrrad(2500, 1000, 120, "Brutalist", 75));
 
-        //tabelle(0);
+        tabelle(0);
 
     }
 
