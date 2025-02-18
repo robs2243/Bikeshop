@@ -1,5 +1,7 @@
 package de.hssfds.bikeshop;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -73,6 +75,42 @@ public class HelloController {
 
         setStatusLabel(i);
         setTextFields(fahrradListe.get(i));
+
+        addListeners();
+
+    }
+
+    private void addListeners() {
+
+        tf_preis.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                fahrradListe.get(i).setPreis(Double.parseDouble(tf_preis.getText()));
+            }
+        });
+
+        tf_akku.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                fahrradListe.get(i).setAkku(Double.parseDouble(tf_akku.getText()));
+            }
+        });
+
+        tf_drehmoment.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                fahrradListe.get(i).setDrehmoment(Double.parseDouble(tf_drehmoment.getText()));
+            }
+        });
+
+        tf_produktname.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                fahrradListe.get(i).setProduktname(tf_produktname.getText());
+            }
+        });
+
+        tf_zustand.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                fahrradListe.get(i).setZustand(Integer.parseInt(tf_zustand.getText()));
+            }
+        });
 
     }
 
