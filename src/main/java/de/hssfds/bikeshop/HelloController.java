@@ -14,7 +14,23 @@ import java.util.ArrayList;
 public class HelloController {
 
     ArrayList<String> meineBilder = new ArrayList<>();
+    ArrayList<Fahrrad> fahrradListe = new ArrayList<>();
     int i;
+
+    @FXML
+    private TextField tf_preis;
+
+    @FXML
+    private TextField tf_akku;
+
+    @FXML
+    private TextField tf_drehmoment;
+
+    @FXML
+    private TextField tf_produktname;
+
+    @FXML
+    private TextField tf_zustand;
 
     @FXML
     private TextField tf_mail;
@@ -38,6 +54,10 @@ public class HelloController {
 
     public void initialize() {
 
+        fahrradListe.add(new Fahrrad(600, 250, 50, "SloppyJoe", 50));
+        fahrradListe.add(new Fahrrad(1000, 500, 70, "EasyRider", 20));
+        fahrradListe.add(new Fahrrad(2500, 1000, 120, "Brutalist", 75));
+
         try {
             getJpgPaths();
         }
@@ -52,6 +72,7 @@ public class HelloController {
         i = 0;
 
         setStatusLabel(i);
+        setTextFields(fahrradListe.get(i));
 
     }
 
@@ -85,6 +106,7 @@ public class HelloController {
             imgBuffer = new Image("file:" + meineBilder.get(i)); // ab JDK21 muss "file:" vor dem Pfad stehen
             bild1.setImage(imgBuffer);
             setStatusLabel(i);
+            setTextFields(fahrradListe.get(i));
         }
         else {
 
@@ -92,6 +114,7 @@ public class HelloController {
             imgBuffer = new Image("file:" + meineBilder.get(i)); // ab JDK21 muss "file:" vor dem Pfad stehen
             bild1.setImage(imgBuffer);
             setStatusLabel(i);
+            setTextFields(fahrradListe.get(i));
         }
 
     }
@@ -108,6 +131,7 @@ public class HelloController {
             imgBuffer = new Image("file:" + meineBilder.get(i)); // ab JDK21 muss "file:" vor dem Pfad stehen
             bild1.setImage(imgBuffer);
             setStatusLabel(i);
+            setTextFields(fahrradListe.get(i));
 
         }
         else {
@@ -116,8 +140,36 @@ public class HelloController {
             imgBuffer = new Image("file:" + meineBilder.get(i)); // ab JDK21 muss "file:" vor dem Pfad stehen
             bild1.setImage(imgBuffer);
             setStatusLabel(i);
+            setTextFields(fahrradListe.get(i));
         }
     }
+
+    @FXML
+    protected void btn_speichern() {
+
+        //get Fahrrad with index i
+
+        Fahrrad currentBike = fahrradListe.get(i);
+
+        //set new values
+        currentBike.setPreis(Double.parseDouble(tf_preis.getText()));
+        currentBike.setAkku(Double.parseDouble(tf_akku.getText()));
+        currentBike.setDrehmoment(Double.parseDouble(tf_drehmoment.getText()));
+        currentBike.setProduktname(tf_produktname.getText());
+        currentBike.setZustand(Integer.parseInt(tf_zustand.getText()));
+
+    }
+
+    protected void setTextFields(Fahrrad currentBike) {
+
+        tf_preis.setText(String.valueOf(currentBike.getPreis()));
+        tf_akku.setText(String.valueOf(currentBike.getAkku()));
+        tf_drehmoment.setText(String.valueOf(currentBike.getDrehmoment()));
+        tf_produktname.setText(currentBike.getProduktname());
+        tf_zustand.setText(String.valueOf(currentBike.getZustand()));
+
+    }
+
 
     @FXML
     protected void inDBschreiben() {
