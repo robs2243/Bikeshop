@@ -70,6 +70,7 @@ public class HelloController {
         Image imgBuffer = new Image("file:" + meineBilder.getFirst()); // ab JDK21 muss "file:" vor dem Pfad stehe
         bild1.setImage(imgBuffer);
 
+        //zähler für die Bilder und Räder
         i = 0;
 
         setStatusLabel(i);
