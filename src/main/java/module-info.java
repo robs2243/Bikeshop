@@ -4,6 +4,7 @@ module de.hssfds.bikeshop {
     requires java.net.http;
     requires org.json;
     requires com.fasterxml.jackson.databind;
+    requires json.path;
 
 
     opens de.hssfds.bikeshop to javafx.fxml;

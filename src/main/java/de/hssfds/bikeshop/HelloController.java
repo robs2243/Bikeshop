@@ -1,6 +1,12 @@
 package de.hssfds.bikeshop;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+
+import java.util.List;
+import java.util.Map;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.jsonpath.DocumentContext;
+import com.jayway.jsonpath.JsonPath;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -59,9 +65,9 @@ public class HelloController {
 
     public void initialize() {
 
-        fahrradListe.add(new Fahrrad(600, 250, 50, "SloppyJoe", 50));
-        fahrradListe.add(new Fahrrad(1000, 500, 70, "EasyRider", 20));
-        fahrradListe.add(new Fahrrad(2500, 1000, 120, "Brutalist", 75));
+        fahrradListe.add(new Fahrrad(600, 250, 50, "SloppyJoe", 50, 101));
+        fahrradListe.add(new Fahrrad(1000, 500, 70, "EasyRider", 20, 102));
+        fahrradListe.add(new Fahrrad(2500, 1000, 120, "Brutalist", 75, 103));
 
         try {
             getJpgPaths();
@@ -256,9 +262,44 @@ public class HelloController {
 
         ArrayList<String> fahrradListeJSON = StringArrayToJSON(fahrradListe);
         for(int i = 0; i < fahrradListeJSON.size(); i++) {
-            Firebasepusher.pushJSONtoDB("fahrrad" + i, fahrradListeJSON.get(i), tf_token.getText());
+            Firebasepusher.pushJSONtoDB(String.valueOf(fahrradListe.get(i).getId()), fahrradListeJSON.get(i), tf_token.getText());
         }
 
+
+    }
+
+    @FXML
+    protected void loadFromFirebase() {
+
+        String[] response = Firebasepusher.getFromFirebase("", tf_token.getText());
+        String jsonAntwort = response[1];
+        JSONparser(jsonAntwort);
+    }
+
+    private void JSONparser(String json) {
+
+        DocumentContext jsonContext = JsonPath.parse(json);
+        Map<String, Object> jsonMap = jsonContext.read("$");
+
+        ArrayList<Fahrrad> fahrradListeJSONparser = new ArrayList<>();
+
+        for (Map.Entry<String, Object> entry : jsonMap.entrySet()) {
+            // Jeder Wert ist ein verschachteltes JSON-Objekt, also casten wir es in eine Map
+            Map<String, Object> produktMap = (Map<String, Object>) entry.getValue();
+
+            double preis = ((Number) produktMap.get("preis")).doubleValue();
+            double akku = ((Number) produktMap.get("akku")).doubleValue();
+            double drehmoment = ((Number) produktMap.get("drehmoment")).doubleValue();
+            String produktname = (String) produktMap.get("produktname");
+            int zustand = ((Number) produktMap.get("zustand")).intValue();
+            int id = ((Number) produktMap.get("id")).intValue();
+
+            Fahrrad fahrrad = new Fahrrad(preis, akku, drehmoment, produktname, zustand, id);
+            fahrradListeJSONparser.add(fahrrad);
+        }
+
+        fahrradListe = fahrradListeJSONparser;
+        setTextFields(fahrradListe.get(i));
 
     }
 

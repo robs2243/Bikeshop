@@ -22,9 +22,9 @@
          <TextField fx:id="tf_drehmoment" layoutX="562.0" layoutY="131.0" />
          <TextField fx:id="tf_produktname" layoutX="562.0" layoutY="168.0" />
          <TextField fx:id="tf_zustand" layoutX="562.0" layoutY="207.0" />
-         <Button layoutX="536.0" layoutY="265.0" mnemonicParsing="false" onAction="#btn_speichern" text="Änderungen speichern" />
-         <TextField fx:id="tf_mail" layoutX="203.0" layoutY="461.0" />
-         <PasswordField fx:id="tf_password" layoutX="430.0" layoutY="461.0" />
+         <Button layoutX="555.0" layoutY="255.0" mnemonicParsing="false" onAction="#btn_speichern" text="Änderungen speichern" />
+         <TextField fx:id="tf_mail" layoutX="203.0" layoutY="461.0" text="test@test.de" />
+         <PasswordField fx:id="tf_password" layoutX="430.0" layoutY="461.0" text="test123" />
          <TextField fx:id="tf_key" layoutX="654.0" layoutY="390.0" prefHeight="17.0" prefWidth="74.0" />
      <TextField fx:id="tf_value" layoutX="654.0" layoutY="424.0" prefHeight="17.0" prefWidth="74.0" />
          <TextField fx:id="tf_token" layoutX="77.0" layoutY="502.0" prefHeight="25.0" prefWidth="682.0" />
@@ -70,7 +70,8 @@
                <Font size="13.0" />
             </font>
          </Label>
-         <Button layoutX="536.0" layoutY="304.0" mnemonicParsing="false" onAction="#saveInFirebase" prefHeight="25.0" prefWidth="136.0" text="In Firebase speichern" />
+         <Button layoutX="555.0" layoutY="292.0" mnemonicParsing="false" onAction="#saveInFirebase" prefHeight="25.0" prefWidth="136.0" text="In Firebase speichern" />
+         <Button layoutX="557.0" layoutY="328.0" mnemonicParsing="false" onAction="#loadFromFirebase" prefHeight="25.0" prefWidth="136.0" text="Aus Firebase laden" />
       </children>
    </Pane>
 </VBox>
