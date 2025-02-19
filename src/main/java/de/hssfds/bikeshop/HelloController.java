@@ -270,29 +270,41 @@ public class HelloController {
 
     @FXML
     protected void saveInFirebase() {
-        // Konvertiere die Liste der Fahrrad-Objekte in eine Liste von JSON-Strings.
+        // Convert the list of bicycle objects to JSON strings.
         ArrayList<String> fahrradListeJSON = StringArrayToJSON(fahrradListe);
+        // Capture the token once (so that it’s available in the background task).
+        String token = tf_token.getText();
 
-        // Iteriere über alle JSON-Strings.
-        for (int i = 0; i < fahrradListeJSON.size(); i++) {
-            // Rufe die Methode pushJSONtoDB auf, um jedes JSON-Dokument in die Firebase-Datenbank zu speichern.
-            // Als Parameter werden:
-            // 1. Die ID des Fahrrads als String (vermutlich als Schlüssel in der DB)
-            // 2. Der JSON-String, der das Fahrrad repräsentiert
-            // 3. Ein Token (aus einem Textfeld tf_token), das vermutlich für Authentifizierungszwecke dient
-            // braucht zu lange, Thread benutzen...
-            String key = String.valueOf(fahrradListe.get(i).getId());
-            String jsonData = fahrradListeJSON.get(i);
+        // Create a Task that will push each JSON document to Firebase.
+        Task<Void> task = new Task<>() {
+            @Override
+            protected Void call() throws Exception {
+                // Iterate over all JSON strings.
+                for (int i = 0; i < fahrradListeJSON.size(); i++) {
+                    String key = String.valueOf(fahrradListe.get(i).getId());
+                    String jsonData = fahrradListeJSON.get(i);
+                    // Call pushJSONtoDB (assumed to be a blocking operation).
+                    Firebasepusher.pushJSONtoDB(key, jsonData, token);
+                }
+                return null;
+            }
+        };
 
-            Platform.runLater(() -> {
-                Firebasepusher.pushJSONtoDB(
-                        key,
-                        jsonData,
-                        tf_token.getText()
-                );
-            });
+        // Optionally, handle success on the JavaFX Application Thread.
+        task.setOnSucceeded(event -> {
+            // For example, update the UI with a success message.
+            System.out.println("All data pushed to Firebase successfully.");
+        });
 
-        }
+        // Optionally, handle errors.
+        task.setOnFailed(event -> {
+            Throwable ex = task.getException();
+            ex.printStackTrace();
+            // You could also update the UI to notify the user of an error.
+        });
+
+        // Start the task in a new Thread.
+        new Thread(task).start();
     }
 
     @FXML
