@@ -242,30 +242,48 @@ public class HelloController {
     }
 
     private ArrayList<String> StringArrayToJSON(ArrayList<Fahrrad> fahrradListe) {
-
-        //erstelle JSON-Strings mit jackson für die Fahrräder und speichere sie in der fahrradListeJSON
+        // Erstelle eine neue Liste, die später die JSON-Darstellungen der Fahrräder enthält.
         ArrayList<String> fahrradListeJSON = new ArrayList<>();
+
+        // Erzeugung eines ObjectMapper-Objekts aus der Jackson-Bibliothek.
+        // Der ObjectMapper übernimmt die Serialisierung (Umwandlung eines Objekts in einen JSON-String).
         ObjectMapper objectMapper = new ObjectMapper();
-        for(Fahrrad fahrrad : fahrradListe) {
+
+        // Iteriere über jedes Fahrrad in der übergebenen Liste.
+        for (Fahrrad fahrrad : fahrradListe) {
             try {
-                fahrradListeJSON.add(objectMapper.writeValueAsString(fahrrad));
+                // Serialisiere das Fahrrad-Objekt in einen JSON-String.
+                String jsonString = objectMapper.writeValueAsString(fahrrad);
+                // Füge den erzeugten JSON-String der Ergebnisliste hinzu.
+                fahrradListeJSON.add(jsonString);
             } catch (Exception e) {
+                // Falls ein Fehler während der Serialisierung auftritt, wird dieser abgefangen und der Stacktrace ausgegeben.
                 e.printStackTrace();
             }
         }
+        // Rückgabe der Liste mit den JSON-Strings.
         return fahrradListeJSON;
     }
 
 
     @FXML
     protected void saveInFirebase() {
-
+        // Konvertiere die Liste der Fahrrad-Objekte in eine Liste von JSON-Strings.
         ArrayList<String> fahrradListeJSON = StringArrayToJSON(fahrradListe);
-        for(int i = 0; i < fahrradListeJSON.size(); i++) {
-            Firebasepusher.pushJSONtoDB(String.valueOf(fahrradListe.get(i).getId()), fahrradListeJSON.get(i), tf_token.getText());
+
+        // Iteriere über alle JSON-Strings.
+        for (int i = 0; i < fahrradListeJSON.size(); i++) {
+            // Rufe die Methode pushJSONtoDB auf, um jedes JSON-Dokument in die Firebase-Datenbank zu speichern.
+            // Als Parameter werden:
+            // 1. Die ID des Fahrrads als String (vermutlich als Schlüssel in der DB)
+            // 2. Der JSON-String, der das Fahrrad repräsentiert
+            // 3. Ein Token (aus einem Textfeld tf_token), das vermutlich für Authentifizierungszwecke dient
+            Firebasepusher.pushJSONtoDB(
+                    String.valueOf(fahrradListe.get(i).getId()),
+                    fahrradListeJSON.get(i),
+                    tf_token.getText()
+            );
         }
-
-
     }
 
     @FXML
