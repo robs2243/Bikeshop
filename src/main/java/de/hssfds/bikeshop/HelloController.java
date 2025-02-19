@@ -7,8 +7,10 @@ import java.util.Map;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -278,20 +280,51 @@ public class HelloController {
             // 1. Die ID des Fahrrads als String (vermutlich als Schlüssel in der DB)
             // 2. Der JSON-String, der das Fahrrad repräsentiert
             // 3. Ein Token (aus einem Textfeld tf_token), das vermutlich für Authentifizierungszwecke dient
-            Firebasepusher.pushJSONtoDB(
-                    String.valueOf(fahrradListe.get(i).getId()),
-                    fahrradListeJSON.get(i),
-                    tf_token.getText()
-            );
+            // braucht zu lange, Thread benutzen...
+            String key = String.valueOf(fahrradListe.get(i).getId());
+            String jsonData = fahrradListeJSON.get(i);
+
+            Platform.runLater(() -> {
+                Firebasepusher.pushJSONtoDB(
+                        key,
+                        jsonData,
+                        tf_token.getText()
+                );
+            });
+
         }
     }
 
     @FXML
     protected void loadFromFirebase() {
+        // Capture any needed UI data before starting the thread
+        String token = tf_token.getText();
 
-        String[] response = Firebasepusher.getFromFirebase("", tf_token.getText());
-        String jsonAntwort = response[1];
-        JSONparser(jsonAntwort);
+        // Create a background Task
+        Task<String[]> task = new Task<>() {
+            @Override
+            protected String[] call() throws Exception {
+                return Firebasepusher.getFromFirebase("", token);
+            }
+        };
+
+        // When the Task succeeds, process the result on the JavaFX Application Thread.
+        task.setOnSucceeded(event -> {
+            String[] response = task.getValue();
+            String jsonAntwort = response[1];
+            // If JSONparser() updates UI components, this call is safe here.
+            JSONparser(jsonAntwort);
+        });
+
+        // Optionally, add error handling.
+        task.setOnFailed(event -> {
+            Throwable ex = task.getException();
+            ex.printStackTrace();
+            // Handle the error (for example, update UI components with an error message)
+        });
+
+        // Start the Task in a new Thread.
+        new Thread(task).start();
     }
 
     private void JSONparser(String json) {
