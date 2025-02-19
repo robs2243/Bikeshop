@@ -1,5 +1,6 @@
 package de.hssfds.bikeshop;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -17,6 +18,8 @@ public class HelloController {
 
     ArrayList<String> meineBilder = new ArrayList<>();
     ArrayList<Fahrrad> fahrradListe = new ArrayList<>();
+    ArrayList<String> JSONobject = new ArrayList<>();
+
     int i;
 
     @FXML
@@ -231,5 +234,34 @@ public class HelloController {
         String password = tf_password.getText();
         tf_token.setText(Firebasepusher.generateToken(email, password));
     }
+
+    private ArrayList<String> StringArrayToJSON(ArrayList<Fahrrad> fahrradListe) {
+
+        //erstelle JSON-Strings mit jackson für die Fahrräder und speichere sie in der fahrradListeJSON
+        ArrayList<String> fahrradListeJSON = new ArrayList<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+        for(Fahrrad fahrrad : fahrradListe) {
+            try {
+                fahrradListeJSON.add(objectMapper.writeValueAsString(fahrrad));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return fahrradListeJSON;
+    }
+
+
+    @FXML
+    protected void saveInFirebase() {
+
+        ArrayList<String> fahrradListeJSON = StringArrayToJSON(fahrradListe);
+        for(int i = 0; i < fahrradListeJSON.size(); i++) {
+            Firebasepusher.pushJSONtoDB("fahrrad" + i, fahrradListeJSON.get(i), tf_token.getText());
+        }
+
+
+    }
+
+
 }
 
