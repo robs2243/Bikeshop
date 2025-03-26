@@ -109,17 +109,21 @@ public class HelloController {
             }
         });
 
-        tf_produktname.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
-                fahrradListe.get(i).setProduktname(tf_produktname.getText());
-            }
-        });
+        tf_produktname.
+                focusedProperty().
+                addListener((observable, oldValue, newValue) -> {
+                    if (!newValue) {
+                        fahrradListe.get(i).setProduktname(tf_produktname.getText());
+                    }
+                });
 
-        tf_zustand.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
-                fahrradListe.get(i).setZustand(Integer.parseInt(tf_zustand.getText()));
-            }
-        });
+        tf_zustand.
+                focusedProperty().
+                addListener((observable, oldValue, newValue) -> {
+                    if (!newValue) {
+                        fahrradListe.get(i).setZustand(Integer.parseInt(tf_zustand.getText()));
+                    }
+                });
 
     }
 
