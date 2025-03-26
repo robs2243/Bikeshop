@@ -19,6 +19,7 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Set;
 
 public class HelloController {
 
@@ -300,26 +301,12 @@ public class HelloController {
 
     private void JSONparser(String json) {
 
-        DocumentContext jsonContext = JsonPath.parse(json);
-        Map<String, Object> jsonMap = jsonContext.read("$");
-
         ArrayList<Fahrrad> fahrradListeJSONparser = new ArrayList<>();
-
-        for (Map.Entry<String, Object> entry : jsonMap.entrySet()) {
-            // Jeder Wert ist ein verschachteltes JSON-Objekt, also casten wir es in eine Map
-            Map<String, Object> produktMap = (Map<String, Object>) entry.getValue();
-
-            double preis = ((Number) produktMap.get("preis")).doubleValue();
-            double akku = ((Number) produktMap.get("akku")).doubleValue();
-            double drehmoment = ((Number) produktMap.get("drehmoment")).doubleValue();
-            String produktname = (String) produktMap.get("produktname");
-            int zustand = ((Number) produktMap.get("zustand")).intValue();
-            int id = ((Number) produktMap.get("id")).intValue();
-
-            Fahrrad fahrrad = new Fahrrad(preis, akku, drehmoment, produktname, zustand, id);
-            fahrradListeJSONparser.add(fahrrad);
+        Map<Integer, Fahrrad> fahrradMap = JsonFahrradParser.parse(json);
+        Set<Integer> allKeys = fahrradMap.keySet();
+        for(Integer bikeId : allKeys) {
+            fahrradListeJSONparser.add(fahrradMap.get(bikeId));
         }
-
         fahrradListe = fahrradListeJSONparser;
         setTextFields(fahrradListe.get(i));
 
